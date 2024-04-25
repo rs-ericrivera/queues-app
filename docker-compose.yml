@@ -1,0 +1,18 @@
+# docker-compose.yml
+# to run: sudo docker-compose -f docker-compose.yml up -d --build
+version: "3.3"
+services:
+  app:
+    build:
+      args:
+        user: docker
+        uid: 1000
+      context: ./
+      dockerfile: ./Dockerfile
+    image: queues-app
+    container_name: queues-app
+    restart: unless-stopped
+    volumes:
+      - /var/www/html/staging/queues-app:/app
+    ports:
+      - '8080:8080'
