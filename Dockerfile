@@ -33,7 +33,7 @@ RUN cp .env.example .env
 RUN  php artisan key:generate
 
 # Expose port 8080 to access the container
-EXPOSE 8080
+EXPOSE 8081
 # Expose port 8080 and start server
 #CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
-ENTRYPOINT ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
+ENTRYPOINT ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8081"]
