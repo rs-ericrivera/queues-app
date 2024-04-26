@@ -1,47 +1,35 @@
 <?php
 
 namespace App\Jobs;
-
-use App\Http\Controllers\UserController;
-use App\Models\JobStatus;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Faker\Factory as Faker;
-
-class AddSubscriberJob implements ShouldQueue
+use App\Services\UserService;
+ class AddSubscriberJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private mixed $userData;
+    protected UserService $userService;
+     private mixed $userData;
+     private mixed $queueId;
 
-    /**
+     /**
      * Create a new job instance.
      */
-    public function __construct($userData)
+    public function __construct($userData,$queueId)
     {
-        //
         $this->userData = $userData;
+        $this->queueId = $queueId;
     }
 
     /**
      * Execute the job.
      */
-    public function handle(): void
+    public function handle(UserService $userService): void
     {
-        //
-        $faker = Faker::create();
-        $queueId = $faker->regexify('[A-Za-z0-9_\-]{10}');
-        $jobStatus = JobStatus::where('queue_id',$queueId)->first();
-        JobStatus::create(
-            [
-                "queue_id"=>$queueId,
-                "status"=>"STARTED",
-                "action"=>"AddSubscriber",
-                "remarks"=>"[StartQueue] - AddSubscriber"
-            ]);
-        UserController::store($this->userData,$queueId);
+
+        $userService->createUser($this->userData,$this->queueId);
     }
 }

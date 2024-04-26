@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\JobStatus;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -28,12 +29,28 @@ class UserController extends Controller
      */
     public function store($userData,$queueId)
     {
-        $job_status = null;
-        $job_status;
-        if(!empty($queueId)){
+        $jobStatus = JobStatus::where('queue_id',$queueId)->first();
+        $updates = [
+            "remarks"=>"Checking Subscriber Details"
+        ];
+        $jobStatus->update($updates);
+        sleep(5);
+        $updates = [
+            "remarks"=>"Checking Subscriber Details"
+        ];
+        $jobStatus->update($updates);
 
+        sleep(5);
+        $updates = [
+            "remarks"=>"Adding Subscriber Details"
+        ];
+        $jobStatus->update($updates);
 
-        }
+        sleep(5);
+        $updates = [
+            "remarks"=>"Saving Subscriber Details"
+        ];
+        $jobStatus->update($updates);
         return User::create($userData);
     }
 
