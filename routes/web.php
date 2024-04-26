@@ -35,7 +35,7 @@ Route::group(['prefix'=>'queue'],function(){
             "remarks"=>"[".$method."] - Added to Queue."]);
         switch ($method) {
             case 'AddSubscriber':
-
+                //bus dispatch
                 $jobId =Bus::dispatch(new AddSubscriberJob($params,$queueId));
                 $jobStatus = JobStatus::find($jobStatus->id)->update(['job_id'=>$jobId]);
                 break;
